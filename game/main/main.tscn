@@ -1,3 +1,43 @@
-[gd_scene format=3 uid="uid://cxgqvi6wo30rl"]
+[gd_scene load_steps=4 format=3 uid="uid://cxgqvi6wo30rl"]
 
-[node name="Main" type="Node2D"]
+[ext_resource type="Texture2D" uid="uid://6tsok761yi2l" path="res://assets/textures/lizard.png" id="1_m7mam"]
+[ext_resource type="FontFile" uid="uid://co8dn5evmv4sj" path="res://assets/fonts/fibberish.ttf" id="1_oo2cl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6h0qd"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[node name="Main" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6h0qd")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_oo2cl")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "[center][wave]YOU CHOOSE THE LIZARD!"
+fit_content = true
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("1_m7mam")
+expand_mode = 3
+stretch_mode = 5
