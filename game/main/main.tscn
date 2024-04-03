@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxgqvi6wo30rl"]
+[gd_scene load_steps=7 format=3 uid="uid://cxgqvi6wo30rl"]
 
+[ext_resource type="Script" path="res://main/main.gd" id="1_lpw2n"]
 [ext_resource type="Texture2D" uid="uid://6tsok761yi2l" path="res://assets/textures/lizard.png" id="1_m7mam"]
 [ext_resource type="FontFile" uid="uid://co8dn5evmv4sj" path="res://assets/fonts/fibberish.ttf" id="1_oo2cl"]
+[ext_resource type="Texture2D" uid="uid://64x8pwvcl1ia" path="res://assets/textures/face.png" id="4_5i464"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6h0qd"]
 bg_color = Color(0, 0, 0, 1)
@@ -11,13 +13,23 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
-[node name="Main" type="PanelContainer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_grdjh"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[node name="Main" type="PanelContainer" node_paths=PackedStringArray("jester_window")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6h0qd")
+script = ExtResource("1_lpw2n")
+jester_window = NodePath("Jester")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 2
@@ -32,7 +44,7 @@ layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_oo2cl")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
-text = "[center][wave]YOU CHOOSE THE LIZARD!"
+text = "[center][wave]YOU CHOOSE THE LIZARD?"
 fit_content = true
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
@@ -41,3 +53,49 @@ layout_mode = 2
 texture = ExtResource("1_m7mam")
 expand_mode = 3
 stretch_mode = 5
+
+[node name="Jester" type="Window" parent="."]
+disable_3d = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(512, 512)
+transient = true
+unresizable = true
+borderless = true
+unfocusable = true
+min_size = Vector2i(512, 512)
+max_size = Vector2i(512, 512)
+content_scale_size = Vector2i(256, 256)
+content_scale_mode = 2
+content_scale_aspect = 1
+content_scale_stretch = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Jester"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_grdjh")
+
+[node name="CenterContainer" type="CenterContainer" parent="Jester/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Jester/PanelContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Jester/PanelContainer/CenterContainer/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_oo2cl")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "[center][wave]THE JESTER !! "
+fit_content = true
+
+[node name="TextureRect" type="TextureRect" parent="Jester/PanelContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("4_5i464")
+expand_mode = 3
+stretch_mode = 4
