@@ -1,6 +1,8 @@
 extends PanelContainer
 
 @export var jester_window: Window
+@export var chamber_window: Window
+@export var chamber: Chamber
 
 var screen_index: int = -1
 var screen_size: Rect2i
@@ -11,7 +13,15 @@ func _ready() -> void:
 	screen_size = DisplayServer.screen_get_usable_rect(screen_index)
 	screen_center = screen_size.size / 2
 	
+	center_chamber()
 	tween_windows_to_center()
+	
+	chamber.spin()
+
+func center_chamber() -> void:
+	chamber_window.show()
+	chamber_window.position = screen_center
+	chamber_window.position -= chamber_window.size / 2
 
 func tween_windows_to_center() -> void:
 	tween_player_window_to_center()
