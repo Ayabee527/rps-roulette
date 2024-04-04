@@ -35,9 +35,9 @@ func _ready() -> void:
 	#pass
 	
 	spin()
-	await get_tree().create_timer(5.5).timeout
+	await get_tree().create_timer(4.0).timeout
 	for i: int in range(6):
-		await get_tree().create_timer(1.5).timeout
+		await get_tree().create_timer(1.0).timeout
 		fire()
 
 func _process(delta: float) -> void:
@@ -53,12 +53,9 @@ func spin() -> void:
 	rotation_degrees = 0
 	spin_sound.play()
 	var tween = create_tween()
-	#tween.tween_property(
-		#self, "rotation_speed", 0.0, 5.0
-	#).from(720.0)
 	tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	tween.tween_property(
-		self, "rotation_degrees", 0.0, 5.0
+		self, "rotation_degrees", 0.0, 3.5
 	).from(3600.0)
 	tween.finished.connect(
 		func():
