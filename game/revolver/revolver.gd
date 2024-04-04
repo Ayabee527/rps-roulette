@@ -1,7 +1,5 @@
-class_name Chamber
+class_name Revolver
 extends Sprite2D
-
-@export var chamber_window: Window
 
 const SPRITES = {
 	6: "res://assets/textures/gunchamber.png",
@@ -19,7 +17,13 @@ signal cocked(chamber: int)
 signal blanked()
 signal shot()
 
-@export var rotation_speed: float = 0.0
+@export_group("Outer Dependencies")
+@export var chamber_window: Window
+
+@export_group("Inner Dependencies")
+@export var fire_sound: AudioStreamPlayer
+@export var cock_sound: AudioStreamPlayer
+@export var spin_sound: AudioStreamPlayer
 
 var chambers_left: int = 6:
 	set = set_chambers_left
@@ -37,7 +41,7 @@ func _ready() -> void:
 		fire()
 
 func _process(delta: float) -> void:
-	rotation_degrees += rotation_speed * delta
+	pass
 
 func set_chambers_left(new_chambers: int) -> void:
 	chambers_left = new_chambers
@@ -47,6 +51,7 @@ func spin() -> void:
 	spin_started.emit()
 	chambers_left = 6
 	rotation_degrees = 0
+	spin_sound.play()
 	var tween = create_tween()
 	#tween.tween_property(
 		#self, "rotation_speed", 0.0, 5.0
@@ -60,10 +65,10 @@ func spin() -> void:
 			rotation_degrees = 0
 			current_chamber = 0
 			spin_finished.emit()
+			cock_sound.play()
 	)
 
 func cock() -> void:
-	rotation_speed = 0.0
 	if chambers_left > 0:
 		var tween = create_tween()
 		tween.tween_property(
@@ -73,19 +78,21 @@ func cock() -> void:
 			func():
 				current_chamber += 1
 				cocked.emit(current_chamber)
+				cock_sound.play()
 		)
 	else:
 		spin()
 
 func fire() -> void:
 	chambers_left -= 1
+	fire_sound.play()
 	if live_chambers.has(current_chamber):
 		shot.emit()
 		live_chambers.erase(current_chamber)
 	else:
 		blanked.emit()
 	shake_window()
-	await get_tree().create_timer(1.0, false).timeout
+	await get_tree().create_timer(0.5, false).timeout
 	cock()
 
 func shake_window() -> void:

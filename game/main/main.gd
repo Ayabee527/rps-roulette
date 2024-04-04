@@ -2,7 +2,7 @@ extends PanelContainer
 
 @export var jester_window: Window
 @export var chamber_window: Window
-@export var chamber: Chamber
+@export var revolver: Revolver
 
 var screen_index: int = -1
 var screen_size: Rect2i
@@ -16,7 +16,7 @@ func _ready() -> void:
 	center_chamber()
 	tween_windows_to_center()
 	
-	#chamber.spin()
+	#revolver.spin()
 
 func center_chamber() -> void:
 	chamber_window.show()

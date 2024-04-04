@@ -3,9 +3,9 @@
 [ext_resource type="Script" path="res://main/main.gd" id="1_lpw2n"]
 [ext_resource type="Texture2D" uid="uid://6tsok761yi2l" path="res://assets/textures/lizard.png" id="1_m7mam"]
 [ext_resource type="Texture2D" uid="uid://64x8pwvcl1ia" path="res://assets/textures/face.png" id="4_5i464"]
+[ext_resource type="PackedScene" uid="uid://c0nq6kbrw70v3" path="res://revolver/revolver.tscn" id="5_d6qyr"]
 [ext_resource type="FontFile" uid="uid://dbyyp0f3eup6a" path="res://assets/fonts/GravityBold8.ttf" id="5_g7obp"]
-[ext_resource type="Texture2D" uid="uid://ier4d7dbfkyx" path="res://assets/textures/gunchamber.png" id="5_khxf0"]
-[ext_resource type="Script" path="res://main/chamber.gd" id="6_qwfr0"]
+[ext_resource type="Texture2D" uid="uid://bjstgb6g4dp4k" path="res://assets/textures/smol-triangle.png" id="6_d8n6w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6h0qd"]
 bg_color = Color(0, 0, 0, 1)
@@ -23,7 +23,7 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
-[node name="Main" type="PanelContainer" node_paths=PackedStringArray("jester_window", "chamber_window", "chamber")]
+[node name="Main" type="PanelContainer" node_paths=PackedStringArray("jester_window", "chamber_window")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -33,7 +33,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_6h0qd")
 script = ExtResource("1_lpw2n")
 jester_window = NodePath("Jester")
 chamber_window = NodePath("Chamber")
-chamber = NodePath("Chamber/PanelContainer/CenterContainer/SpriteHolder/Chamber")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 2
@@ -131,11 +130,13 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_grdjh")
 [node name="CenterContainer" type="CenterContainer" parent="Chamber/PanelContainer"]
 layout_mode = 2
 
-[node name="SpriteHolder" type="Control" parent="Chamber/PanelContainer/CenterContainer"]
+[node name="RevolverHolder" type="Control" parent="Chamber/PanelContainer/CenterContainer"]
 layout_mode = 2
 
-[node name="Chamber" type="Sprite2D" parent="Chamber/PanelContainer/CenterContainer/SpriteHolder" node_paths=PackedStringArray("chamber_window")]
-scale = Vector2(2, 2)
-texture = ExtResource("5_khxf0")
-script = ExtResource("6_qwfr0")
+[node name="Revolver" parent="Chamber/PanelContainer/CenterContainer/RevolverHolder" node_paths=PackedStringArray("chamber_window") instance=ExtResource("5_d6qyr")]
 chamber_window = NodePath("../../../..")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chamber/PanelContainer/CenterContainer/RevolverHolder"]
+scale = Vector2(2, 2)
+texture = ExtResource("6_d8n6w")
+offset = Vector2(40, 0)
