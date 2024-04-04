@@ -16,7 +16,7 @@ func _ready() -> void:
 	center_chamber()
 	tween_windows_to_center()
 	
-	chamber.spin()
+	#chamber.spin()
 
 func center_chamber() -> void:
 	chamber_window.show()

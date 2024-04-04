@@ -28,13 +28,13 @@ var current_chamber: int = 0
 var live_chambers: Array[int] = []
 
 func _ready() -> void:
-	pass
+	#pass
 	
-	#spin()
-	#await get_tree().create_timer(5.5).timeout
-	#for i: int in range(6):
-		#await get_tree().create_timer(1.5).timeout
-		#fire()
+	spin()
+	await get_tree().create_timer(5.5).timeout
+	for i: int in range(6):
+		await get_tree().create_timer(1.5).timeout
+		fire()
 
 func _process(delta: float) -> void:
 	rotation_degrees += rotation_speed * delta
@@ -44,6 +44,7 @@ func set_chambers_left(new_chambers: int) -> void:
 	texture = load(SPRITES[chambers_left])
 
 func spin() -> void:
+	spin_started.emit()
 	chambers_left = 6
 	rotation_degrees = 0
 	var tween = create_tween()
@@ -58,6 +59,7 @@ func spin() -> void:
 		func():
 			rotation_degrees = 0
 			current_chamber = 0
+			spin_finished.emit()
 	)
 
 func cock() -> void:
@@ -70,6 +72,7 @@ func cock() -> void:
 		tween.finished.connect(
 			func():
 				current_chamber += 1
+				cocked.emit(current_chamber)
 		)
 	else:
 		spin()
