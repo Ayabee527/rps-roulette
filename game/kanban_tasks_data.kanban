@@ -1,0 +1,50 @@
+{
+	"categories": [
+		{
+			"uuid": "f0c76669-d9d6-47b0-ae78-46f908e0f61e",
+			"title": "Task",
+			"color": "70bafa"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "25f6a20d-ec89-4171-8f1c-c4934e49402d",
+			"title": "Todo",
+			"tasks": []
+		},
+		{
+			"uuid": "fb26dcda-82d7-4de4-a8ac-e1f739cdfb6a",
+			"title": "Doing",
+			"tasks": []
+		},
+		{
+			"uuid": "73bf34ac-be8b-48b2-8cd6-75f63d525089",
+			"title": "Done",
+			"tasks": [
+				"295dc52f-abad-4428-bf20-df0a014dbe4b"
+			]
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "295dc52f-abad-4428-bf20-df0a014dbe4b",
+			"title": "Revolver Spin, Fire, and Cock",
+			"description": "",
+			"category": "f0c76669-d9d6-47b0-ae78-46f908e0f61e",
+			"steps": []
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"25f6a20d-ec89-4171-8f1c-c4934e49402d"
+			],
+			[
+				"fb26dcda-82d7-4de4-a8ac-e1f739cdfb6a"
+			],
+			[
+				"73bf34ac-be8b-48b2-8cd6-75f63d525089"
+			]
+		]
+	}
+}

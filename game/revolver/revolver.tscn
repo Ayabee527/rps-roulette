@@ -1,16 +1,24 @@
-[gd_scene load_steps=8 format=3 uid="uid://c0nq6kbrw70v3"]
+[gd_scene load_steps=10 format=3 uid="uid://c0nq6kbrw70v3"]
 
 [ext_resource type="Texture2D" uid="uid://ier4d7dbfkyx" path="res://assets/textures/gunchamber.png" id="1_abjhi"]
 [ext_resource type="Script" path="res://revolver/revolver.gd" id="2_o6veg"]
+[ext_resource type="AudioStream" uid="uid://cnr74tmicbaao" path="res://assets/sound/click.wav" id="3_5u8lr"]
 [ext_resource type="AudioStream" uid="uid://d2su0ppfmoj5w" path="res://assets/sound/shoot.wav" id="3_nykgd"]
 [ext_resource type="AudioStream" uid="uid://1j1eft03fll6" path="res://assets/sound/cock.wav" id="4_2lqqr"]
 [ext_resource type="AudioStream" uid="uid://ttdrfs0n724m" path="res://assets/sound/spin.wav" id="5_eigml"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1x0yb"]
+random_pitch = 1.5
+random_volume_offset_db = 5.0
+streams_count = 1
+stream_0/stream = ExtResource("3_nykgd")
+stream_0/weight = 1.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jta0y"]
 random_pitch = 1.5
 random_volume_offset_db = 5.0
 streams_count = 1
-stream_0/stream = ExtResource("3_nykgd")
+stream_0/stream = ExtResource("3_5u8lr")
 stream_0/weight = 1.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_g5u0u"]
@@ -19,15 +27,20 @@ streams_count = 1
 stream_0/stream = ExtResource("4_2lqqr")
 stream_0/weight = 1.0
 
-[node name="Revolver" type="Sprite2D" node_paths=PackedStringArray("fire_sound", "cock_sound", "spin_sound")]
+[node name="Revolver" type="Sprite2D" node_paths=PackedStringArray("fire_sound", "click_sound", "cock_sound", "spin_sound")]
 scale = Vector2(2, 2)
 texture = ExtResource("1_abjhi")
 script = ExtResource("2_o6veg")
 fire_sound = NodePath("Fire")
+click_sound = NodePath("Click")
 cock_sound = NodePath("Cock")
 spin_sound = NodePath("Spin")
 
 [node name="Fire" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_1x0yb")
+bus = &"sfx"
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_jta0y")
 bus = &"sfx"
 

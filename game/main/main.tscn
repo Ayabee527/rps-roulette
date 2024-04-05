@@ -1,10 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxgqvi6wo30rl"]
+[gd_scene load_steps=23 format=3 uid="uid://cxgqvi6wo30rl"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_lpw2n"]
 [ext_resource type="Texture2D" uid="uid://6tsok761yi2l" path="res://assets/textures/lizard.png" id="1_m7mam"]
+[ext_resource type="FontFile" uid="uid://co8dn5evmv4sj" path="res://assets/fonts/fibberish.ttf" id="2_1r3j6"]
+[ext_resource type="Resource" uid="uid://3x05hqcx6x77" path="res://main/game_manager.tres" id="2_g6r4c"]
 [ext_resource type="Texture2D" uid="uid://64x8pwvcl1ia" path="res://assets/textures/face.png" id="4_5i464"]
+[ext_resource type="Texture2D" uid="uid://dmlnmysw0lm2g" path="res://assets/textures/snake.png" id="4_gho0t"]
+[ext_resource type="AudioStream" uid="uid://c1ltfaygevbb7" path="res://assets/sound/squeak.wav" id="4_pb2nj"]
 [ext_resource type="PackedScene" uid="uid://c0nq6kbrw70v3" path="res://revolver/revolver.tscn" id="5_d6qyr"]
 [ext_resource type="FontFile" uid="uid://dbyyp0f3eup6a" path="res://assets/fonts/GravityBold8.ttf" id="5_g7obp"]
+[ext_resource type="Texture2D" uid="uid://xosl2xbhkmmi" path="res://assets/textures/elephant.png" id="5_nupty"]
+[ext_resource type="Script" path="res://main/jester/jester_brain.gd" id="6_5xbic"]
 [ext_resource type="Texture2D" uid="uid://bjstgb6g4dp4k" path="res://assets/textures/smol-triangle.png" id="6_d8n6w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6h0qd"]
@@ -15,6 +21,13 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sado7"]
+random_pitch = 1.5
+random_volume_offset_db = 5.0
+streams_count = 1
+stream_0/stream = ExtResource("4_pb2nj")
+stream_0/weight = 1.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_grdjh"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 2
@@ -23,7 +36,91 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
-[node name="Main" type="PanelContainer" node_paths=PackedStringArray("jester_window", "chamber_window")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0db4e"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twh6n"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 0.25098)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w4gwh"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 0.501961)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_li0hs"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 0.25098)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_muf0b"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oj31w"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.772549, 0.733333, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.694118, 0.647059, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wyv8r"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0, 0, 1)
+
+[node name="Main" type="PanelContainer" node_paths=PackedStringArray("jester_window", "revolver_window", "choice_buttons", "lizard_button", "snake_button", "elephant_button", "confirm_button", "revolver", "jester_brain", "suspense_timer")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,33 +128,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6h0qd")
 script = ExtResource("1_lpw2n")
+game_manager = ExtResource("2_g6r4c")
 jester_window = NodePath("Jester")
-chamber_window = NodePath("Chamber")
-
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-
-[node name="Choice" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
-clip_contents = false
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-theme_override_constants/line_separation = 4
-theme_override_fonts/normal_font = ExtResource("5_g7obp")
-theme_override_font_sizes/normal_font_size = 8
-bbcode_enabled = true
-text = "[center][wave]YOU CHOOSE THE LIZARD?"
-fit_content = true
-
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-texture = ExtResource("1_m7mam")
-expand_mode = 3
-stretch_mode = 5
-flip_h = true
+revolver_window = NodePath("Revolver")
+choice_buttons = [NodePath("CenterContainer/ChooseFighter/GridContainer/Liz"), NodePath("CenterContainer/ChooseFighter/GridContainer/Snek"), NodePath("CenterContainer/ChooseFighter/GridContainer/Eleph")]
+lizard_button = NodePath("CenterContainer/ChooseFighter/GridContainer/Liz")
+snake_button = NodePath("CenterContainer/ChooseFighter/GridContainer/Snek")
+elephant_button = NodePath("CenterContainer/ChooseFighter/GridContainer/Eleph")
+confirm_button = NodePath("MarginContainer/Confirm")
+revolver = NodePath("Revolver/PanelContainer/CenterContainer/RevolverHolder/Revolver")
+jester_brain = NodePath("Jester/JesterBrain")
+suspense_timer = NodePath("SuspenseTimer")
 
 [node name="Jester" type="Window" parent="."]
 disable_3d = true
@@ -67,6 +148,7 @@ visible = false
 transient = true
 unresizable = true
 borderless = true
+always_on_top = true
 unfocusable = true
 min_size = Vector2i(512, 512)
 max_size = Vector2i(512, 512)
@@ -74,6 +156,21 @@ content_scale_size = Vector2i(256, 256)
 content_scale_mode = 2
 content_scale_aspect = 1
 content_scale_stretch = 1
+
+[node name="JesterBrain" type="Node" parent="Jester" node_paths=PackedStringArray("revolver", "face", "hurt_timer", "hurt_sound")]
+script = ExtResource("6_5xbic")
+revolver = NodePath("../../Revolver/PanelContainer/CenterContainer/RevolverHolder/Revolver")
+game_manager = ExtResource("2_g6r4c")
+face = NodePath("../PanelContainer/CenterContainer/VBoxContainer/Face")
+hurt_timer = NodePath("HurtTimer")
+hurt_sound = NodePath("HurtSound")
+
+[node name="HurtTimer" type="Timer" parent="Jester/JesterBrain"]
+one_shot = true
+
+[node name="HurtSound" type="AudioStreamPlayer" parent="Jester/JesterBrain"]
+stream = SubResource("AudioStreamRandomizer_sado7")
+bus = &"sfx"
 
 [node name="PanelContainer" type="PanelContainer" parent="Jester"]
 anchors_preset = 15
@@ -90,7 +187,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="TextureRect" type="TextureRect" parent="Jester/PanelContainer/CenterContainer/VBoxContainer"]
+[node name="Face" type="TextureRect" parent="Jester/PanelContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("4_5i464")
@@ -107,19 +204,21 @@ bbcode_enabled = true
 text = "[center][wave]JESTER >:)"
 fit_content = true
 
-[node name="Chamber" type="Window" parent="."]
+[node name="Revolver" type="Window" parent="."]
 disable_3d = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(256, 256)
+visible = false
 unresizable = true
 borderless = true
+always_on_top = true
 min_size = Vector2i(256, 256)
 max_size = Vector2i(256, 256)
 content_scale_size = Vector2i(256, 256)
 content_scale_mode = 2
 content_scale_aspect = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="Chamber"]
+[node name="PanelContainer" type="PanelContainer" parent="Revolver"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -127,16 +226,111 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_grdjh")
 
-[node name="CenterContainer" type="CenterContainer" parent="Chamber/PanelContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="Revolver/PanelContainer"]
 layout_mode = 2
 
-[node name="RevolverHolder" type="Control" parent="Chamber/PanelContainer/CenterContainer"]
+[node name="RevolverHolder" type="Control" parent="Revolver/PanelContainer/CenterContainer"]
 layout_mode = 2
 
-[node name="Revolver" parent="Chamber/PanelContainer/CenterContainer/RevolverHolder" node_paths=PackedStringArray("chamber_window") instance=ExtResource("5_d6qyr")]
-chamber_window = NodePath("../../../..")
+[node name="Revolver" parent="Revolver/PanelContainer/CenterContainer/RevolverHolder" node_paths=PackedStringArray("revolver_window") instance=ExtResource("5_d6qyr")]
+revolver_window = NodePath("../../../..")
 
-[node name="Sprite2D" type="Sprite2D" parent="Chamber/PanelContainer/CenterContainer/RevolverHolder"]
+[node name="Sprite2D" type="Sprite2D" parent="Revolver/PanelContainer/CenterContainer/RevolverHolder"]
 scale = Vector2(2, 2)
 texture = ExtResource("6_d8n6w")
 offset = Vector2(40, 0)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Confirm" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_1r3j6")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_0db4e")
+theme_override_styles/hover = SubResource("StyleBoxFlat_twh6n")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_w4gwh")
+theme_override_styles/focus = SubResource("StyleBoxFlat_li0hs")
+text = "proceed."
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ChooseFighter" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Choice" type="RichTextLabel" parent="CenterContainer/ChooseFighter"]
+clip_contents = false
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/line_separation = 4
+theme_override_fonts/normal_font = ExtResource("5_g7obp")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "[center][wave]CHOOSE YOUR FIGHTER."
+fit_content = true
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/ChooseFighter"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 16
+columns = 3
+
+[node name="Liz" type="Button" parent="CenterContainer/ChooseFighter/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_muf0b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_oj31w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wyv8r")
+theme_override_styles/focus = SubResource("StyleBoxFlat_oj31w")
+toggle_mode = true
+icon = ExtResource("1_m7mam")
+icon_alignment = 1
+
+[node name="Snek" type="Button" parent="CenterContainer/ChooseFighter/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_muf0b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_oj31w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wyv8r")
+theme_override_styles/focus = SubResource("StyleBoxFlat_oj31w")
+toggle_mode = true
+icon = ExtResource("4_gho0t")
+icon_alignment = 1
+
+[node name="Eleph" type="Button" parent="CenterContainer/ChooseFighter/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_muf0b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_oj31w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wyv8r")
+theme_override_styles/focus = SubResource("StyleBoxFlat_oj31w")
+toggle_mode = true
+icon = ExtResource("5_nupty")
+icon_alignment = 1
+
+[node name="SuspenseTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="hurt" from="Jester/JesterBrain" to="." method="_on_jester_brain_hurt"]
+[connection signal="timeout" from="Jester/JesterBrain/HurtTimer" to="Jester/JesterBrain" method="_on_hurt_timer_timeout"]
+[connection signal="pressed" from="MarginContainer/Confirm" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="MarginContainer/Confirm" to="Jester/JesterBrain" method="_on_confirm_pressed"]
+[connection signal="pressed" from="CenterContainer/ChooseFighter/GridContainer/Liz" to="." method="_on_liz_pressed"]
+[connection signal="pressed" from="CenterContainer/ChooseFighter/GridContainer/Snek" to="." method="_on_snek_pressed"]
+[connection signal="pressed" from="CenterContainer/ChooseFighter/GridContainer/Eleph" to="." method="_on_eleph_pressed"]
+[connection signal="timeout" from="SuspenseTimer" to="." method="_on_suspense_timer_timeout"]

@@ -1,27 +1,55 @@
 extends PanelContainer
 
+@export var game_manager: GameManager
+
+@export_group("Dependencies")
+@export_subgroup("Windows")
 @export var jester_window: Window
-@export var chamber_window: Window
+@export var revolver_window: Window
+
+@export_subgroup("Player UI")
+@export var choice_buttons: Array[Button]
+@export var lizard_button: Button
+@export var snake_button: Button
+@export var elephant_button: Button
+@export var confirm_button: Button
+
+@export_subgroup("Miscellaneous")
 @export var revolver: Revolver
+@export var jester_brain: JesterBrain
+@export var suspense_timer: Timer
+
+var player_marked_for_death: bool = false
 
 var screen_index: int = -1
 var screen_size: Rect2i
 var screen_center: Vector2i
 
+var window: Window
+
 func _ready() -> void:
+	window = get_window()
+	
 	screen_index = DisplayServer.get_primary_screen()
 	screen_size = DisplayServer.screen_get_usable_rect(screen_index)
 	screen_center = screen_size.size / 2
 	
-	center_chamber()
+	game_manager.player_lost.connect(on_player_lost)
+	game_manager.draw.connect(on_draw)
+	
+	revolver.spin_finished.connect(on_revolver_spun)
+	revolver.cocked.connect(on_revolver_cocked)
+	revolver.shot.connect(on_revolver_shot)
+	
+	center_revolver()
 	tween_windows_to_center()
 	
-	#revolver.spin()
+	revolver.spin()
 
-func center_chamber() -> void:
-	chamber_window.show()
-	chamber_window.position = screen_center
-	chamber_window.position -= chamber_window.size / 2
+func center_revolver() -> void:
+	revolver_window.show()
+	revolver_window.position = screen_center
+	revolver_window.position -= revolver_window.size / 2
 
 func tween_windows_to_center() -> void:
 	tween_player_window_to_center()
@@ -29,7 +57,6 @@ func tween_windows_to_center() -> void:
 	tween_jester_window_to_center()
 
 func tween_player_window_to_center() -> void:
-	var window := get_window()
 	window.position = get_player_rest_spot()
 	window.position.y = -window.size.y
 	
@@ -52,8 +79,6 @@ func tween_jester_window_to_center() -> void:
 	tween.play()
 
 func get_player_rest_spot() -> Vector2i:
-	var window := get_window()
-	
 	var rest_position = screen_center
 	rest_position.y -= window.size.y / 2
 	rest_position.x += window.size.y / 2
@@ -69,3 +94,72 @@ func get_jester_rest_spot() -> Vector2i:
 	rest_position.x -= jester_window.size.x / 2
 	
 	return rest_position
+
+func reset_other_choices(chosen_button: Button) -> void:
+	for button: Button in choice_buttons:
+		if button != chosen_button:
+			button.button_pressed = false
+	
+	confirm_button.show()
+
+func _on_liz_pressed() -> void:
+	game_manager.player_choice = game_manager.LIZARD
+	reset_other_choices(lizard_button)
+
+func _on_snek_pressed() -> void:
+	game_manager.player_choice = game_manager.SNAKE
+	reset_other_choices(snake_button)
+
+func _on_eleph_pressed() -> void:
+	game_manager.player_choice = game_manager.ELEPHANT
+	reset_other_choices(elephant_button)
+
+func shake_jester_window(strength: int = 32) -> void:
+	var shake_offset = Vector2i(
+		Vector2.from_angle(TAU * randf()) * strength
+	)
+	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tween.tween_property(
+		jester_window, "position", get_jester_rest_spot(),
+		0.5
+	).from(jester_window.position + shake_offset)
+	tween.play()
+
+func shake_player_window(strength: int = 32) -> void:
+	var shake_offset = Vector2i(
+		Vector2.from_angle(TAU * randf()) * strength
+	)
+	var window := get_window()
+	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tween.tween_property(
+		window, "position", get_player_rest_spot(),
+		0.5
+	).from(window.position + shake_offset)
+	tween.play()
+
+func _on_confirm_pressed() -> void:
+	suspense_timer.start()
+
+func on_draw() -> void:
+	pass
+
+func on_player_lost() -> void:
+	player_marked_for_death = true
+
+func on_revolver_shot() -> void:
+	if player_marked_for_death:
+		shake_player_window()
+
+func on_revolver_cocked() -> void:
+	player_marked_for_death = false
+
+func on_revolver_spun() -> void:
+	player_marked_for_death = false
+
+func _on_suspense_timer_timeout() -> void:
+	game_manager.check()
+	revolver.fire()
+
+
+func _on_jester_brain_hurt() -> void:
+	shake_jester_window()

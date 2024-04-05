@@ -18,10 +18,11 @@ signal blanked()
 signal shot()
 
 @export_group("Outer Dependencies")
-@export var chamber_window: Window
+@export var revolver_window: Window
 
 @export_group("Inner Dependencies")
 @export var fire_sound: AudioStreamPlayer
+@export var click_sound: AudioStreamPlayer
 @export var cock_sound: AudioStreamPlayer
 @export var spin_sound: AudioStreamPlayer
 
@@ -29,16 +30,16 @@ var chambers_left: int = 6:
 	set = set_chambers_left
 var current_chamber: int = 0
 
-var live_chambers: Array[int] = []
+var live_chambers: Array[int] = [0, 1, 2, 3, 4, 5]
 
 func _ready() -> void:
-	#pass
+	pass
 	
-	spin()
-	await get_tree().create_timer(4.0).timeout
-	for i: int in range(6):
-		await get_tree().create_timer(1.0).timeout
-		fire()
+	#spin()
+	#await get_tree().create_timer(4.0).timeout
+	#for i: int in range(6):
+		#await get_tree().create_timer(1.0).timeout
+		#fire()
 
 func _process(delta: float) -> void:
 	pass
@@ -82,26 +83,28 @@ func cock() -> void:
 
 func fire() -> void:
 	chambers_left -= 1
-	fire_sound.play()
 	if live_chambers.has(current_chamber):
+		fire_sound.play()
+		shake_window(24)
 		shot.emit()
 		live_chambers.erase(current_chamber)
 	else:
+		click_sound.play()
+		shake_window(12)
 		blanked.emit()
-	shake_window()
 	await get_tree().create_timer(0.5, false).timeout
 	cock()
 
-func shake_window() -> void:
+func shake_window(strength: int = 24) -> void:
 	var screen_center: Vector2i = (
 		DisplayServer.screen_get_usable_rect().size / 2
 	)
 	var shake_offset = Vector2i(
-		Vector2.from_angle(TAU * randf()) * 24.0
+		Vector2.from_angle(TAU * randf()) * strength
 	)
 	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	tween.tween_property(
-		chamber_window, "position", screen_center - (chamber_window.size / 2),
+		revolver_window, "position", screen_center - (revolver_window.size / 2),
 		0.5
-	).from(chamber_window.position + shake_offset)
+	).from(revolver_window.position + shake_offset)
 	tween.play()
