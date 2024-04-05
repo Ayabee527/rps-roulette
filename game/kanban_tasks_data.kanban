@@ -15,13 +15,16 @@
 		{
 			"uuid": "fb26dcda-82d7-4de4-a8ac-e1f739cdfb6a",
 			"title": "Doing",
-			"tasks": []
+			"tasks": [
+				"bf4bdd40-d519-46d0-a1c8-80dca56722ce"
+			]
 		},
 		{
 			"uuid": "73bf34ac-be8b-48b2-8cd6-75f63d525089",
 			"title": "Done",
 			"tasks": [
-				"295dc52f-abad-4428-bf20-df0a014dbe4b"
+				"295dc52f-abad-4428-bf20-df0a014dbe4b",
+				"16d6b252-b0e5-45d3-8a7c-d7f0e430ae1d"
 			]
 		}
 	],
@@ -29,6 +32,20 @@
 		{
 			"uuid": "295dc52f-abad-4428-bf20-df0a014dbe4b",
 			"title": "Revolver Spin, Fire, and Cock",
+			"description": "",
+			"category": "f0c76669-d9d6-47b0-ae78-46f908e0f61e",
+			"steps": []
+		},
+		{
+			"uuid": "16d6b252-b0e5-45d3-8a7c-d7f0e430ae1d",
+			"title": "Basic choice making, determination and shooting",
+			"description": "",
+			"category": "f0c76669-d9d6-47b0-ae78-46f908e0f61e",
+			"steps": []
+		},
+		{
+			"uuid": "bf4bdd40-d519-46d0-a1c8-80dca56722ce",
+			"title": "Polishing Choice Making + Determination",
 			"description": "",
 			"category": "f0c76669-d9d6-47b0-ae78-46f908e0f61e",
 			"steps": []

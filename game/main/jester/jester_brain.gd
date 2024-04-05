@@ -26,10 +26,13 @@ var marked_for_death: bool = false
 
 func _ready() -> void:
 	game_manager.jester_lost.connect(on_jester_lost)
+	game_manager.player_lost.connect(on_player_lost)
+	game_manager.draw.connect(on_draw)
 	
 	revolver.cocked.connect(on_revolver_cocked)
 	revolver.spin_finished.connect(on_revolver_spun)
 	revolver.shot.connect(on_revolver_shot)
+	revolver.blanked.connect(on_blank)
 	switch_face("DEFAULT")
 
 func switch_face(type: String) -> void:
@@ -50,6 +53,15 @@ func on_revolver_cocked() -> void:
 
 func on_jester_lost() -> void:
 	marked_for_death = true
+
+func on_player_lost() -> void:
+	switch_face("SMUG")
+
+func on_draw() -> void:
+	switch_face("BRUH")
+
+func on_blank() -> void:
+	switch_face("DEFAULT")
 
 func on_revolver_shot() -> void:
 	if marked_for_death:

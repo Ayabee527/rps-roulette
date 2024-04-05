@@ -30,7 +30,7 @@ var chambers_left: int = 6:
 	set = set_chambers_left
 var current_chamber: int = 0
 
-var live_chambers: Array[int] = [0, 1, 2, 3, 4, 5]
+var live_chambers: Array[int] = [1, 2, 3, 4, 5]
 
 func _ready() -> void:
 	pass

@@ -157,8 +157,9 @@ func on_revolver_spun() -> void:
 	player_marked_for_death = false
 
 func _on_suspense_timer_timeout() -> void:
-	game_manager.check()
-	revolver.fire()
+	if not game_manager.check_draw():
+		game_manager.check_win()
+		revolver.fire()
 
 
 func _on_jester_brain_hurt() -> void:
