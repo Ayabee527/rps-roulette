@@ -131,11 +131,11 @@ script = ExtResource("1_lpw2n")
 game_manager = ExtResource("2_g6r4c")
 jester_window = NodePath("Jester")
 revolver_window = NodePath("Revolver")
-choice_buttons = [NodePath("CenterContainer/ChooseFighter/GridContainer/Liz"), NodePath("CenterContainer/ChooseFighter/GridContainer/Snek"), NodePath("CenterContainer/ChooseFighter/GridContainer/Eleph")]
-lizard_button = NodePath("CenterContainer/ChooseFighter/GridContainer/Liz")
-snake_button = NodePath("CenterContainer/ChooseFighter/GridContainer/Snek")
-elephant_button = NodePath("CenterContainer/ChooseFighter/GridContainer/Eleph")
-confirm_button = NodePath("MarginContainer/Confirm")
+choice_buttons = [NodePath("ChoiceUI/CenterContainer/ChooseFighter/GridContainer/Liz"), NodePath("ChoiceUI/CenterContainer/ChooseFighter/GridContainer/Snek"), NodePath("ChoiceUI/CenterContainer/ChooseFighter/GridContainer/Eleph")]
+lizard_button = NodePath("ChoiceUI/CenterContainer/ChooseFighter/GridContainer/Liz")
+snake_button = NodePath("ChoiceUI/CenterContainer/ChooseFighter/GridContainer/Snek")
+elephant_button = NodePath("ChoiceUI/CenterContainer/ChooseFighter/GridContainer/Eleph")
+confirm_button = NodePath("ChoiceUI/MarginContainer/Confirm")
 revolver = NodePath("Revolver/PanelContainer/CenterContainer/RevolverHolder/Revolver")
 jester_brain = NodePath("Jester/JesterBrain")
 suspense_timer = NodePath("SuspenseTimer")
@@ -157,10 +157,11 @@ content_scale_mode = 2
 content_scale_aspect = 1
 content_scale_stretch = 1
 
-[node name="JesterBrain" type="Node" parent="Jester" node_paths=PackedStringArray("revolver", "face", "hurt_timer", "hurt_sound")]
+[node name="JesterBrain" type="Node" parent="Jester" node_paths=PackedStringArray("revolver", "jester_window", "face", "hurt_timer", "hurt_sound")]
 script = ExtResource("6_5xbic")
 revolver = NodePath("../../Revolver/PanelContainer/CenterContainer/RevolverHolder/Revolver")
 game_manager = ExtResource("2_g6r4c")
+jester_window = NodePath("..")
 face = NodePath("../PanelContainer/CenterContainer/VBoxContainer/Face")
 hurt_timer = NodePath("HurtTimer")
 hurt_sound = NodePath("HurtSound")
@@ -240,15 +241,23 @@ scale = Vector2(2, 2)
 texture = ExtResource("6_d8n6w")
 offset = Vector2(40, 0)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="PlayerBrain" type="Node" parent="."]
+
+[node name="ChoiceUI" type="Control" parent="."]
+visible = false
 layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ChoiceUI"]
+layout_mode = 2
+offset_right = 252.0
+offset_bottom = 252.0
 mouse_filter = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="Confirm" type="Button" parent="MarginContainer"]
+[node name="Confirm" type="Button" parent="ChoiceUI/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
@@ -260,15 +269,17 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_w4gwh")
 theme_override_styles/focus = SubResource("StyleBoxFlat_li0hs")
 text = "proceed."
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="ChoiceUI"]
+layout_mode = 2
+offset_right = 252.0
+offset_bottom = 252.0
+mouse_filter = 2
+
+[node name="ChooseFighter" type="VBoxContainer" parent="ChoiceUI/CenterContainer"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="ChooseFighter" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Choice" type="RichTextLabel" parent="CenterContainer/ChooseFighter"]
+[node name="Choice" type="RichTextLabel" parent="ChoiceUI/CenterContainer/ChooseFighter"]
 clip_contents = false
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
@@ -280,13 +291,13 @@ bbcode_enabled = true
 text = "[center][wave]CHOOSE YOUR FIGHTER."
 fit_content = true
 
-[node name="GridContainer" type="GridContainer" parent="CenterContainer/ChooseFighter"]
+[node name="GridContainer" type="GridContainer" parent="ChoiceUI/CenterContainer/ChooseFighter"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/h_separation = 16
 columns = 3
 
-[node name="Liz" type="Button" parent="CenterContainer/ChooseFighter/GridContainer"]
+[node name="Liz" type="Button" parent="ChoiceUI/CenterContainer/ChooseFighter/GridContainer"]
 layout_mode = 2
 focus_mode = 0
 theme_override_constants/icon_max_width = 32
@@ -298,7 +309,7 @@ toggle_mode = true
 icon = ExtResource("1_m7mam")
 icon_alignment = 1
 
-[node name="Snek" type="Button" parent="CenterContainer/ChooseFighter/GridContainer"]
+[node name="Snek" type="Button" parent="ChoiceUI/CenterContainer/ChooseFighter/GridContainer"]
 layout_mode = 2
 focus_mode = 0
 theme_override_constants/icon_max_width = 32
@@ -310,7 +321,7 @@ toggle_mode = true
 icon = ExtResource("4_gho0t")
 icon_alignment = 1
 
-[node name="Eleph" type="Button" parent="CenterContainer/ChooseFighter/GridContainer"]
+[node name="Eleph" type="Button" parent="ChoiceUI/CenterContainer/ChooseFighter/GridContainer"]
 layout_mode = 2
 focus_mode = 0
 theme_override_constants/icon_max_width = 32
@@ -322,15 +333,47 @@ toggle_mode = true
 icon = ExtResource("5_nupty")
 icon_alignment = 1
 
+[node name="DecisionUI" type="Control" parent="."]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="DecisionUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DecisionUI/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Face" type="TextureRect" parent="DecisionUI/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("4_gho0t")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Name" type="RichTextLabel" parent="DecisionUI/CenterContainer/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(224, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("5_g7obp")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "[center][wave]YOU"
+fit_content = true
+
 [node name="SuspenseTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
 
 [connection signal="hurt" from="Jester/JesterBrain" to="." method="_on_jester_brain_hurt"]
 [connection signal="timeout" from="Jester/JesterBrain/HurtTimer" to="Jester/JesterBrain" method="_on_hurt_timer_timeout"]
-[connection signal="pressed" from="MarginContainer/Confirm" to="." method="_on_confirm_pressed"]
-[connection signal="pressed" from="MarginContainer/Confirm" to="Jester/JesterBrain" method="_on_confirm_pressed"]
-[connection signal="pressed" from="CenterContainer/ChooseFighter/GridContainer/Liz" to="." method="_on_liz_pressed"]
-[connection signal="pressed" from="CenterContainer/ChooseFighter/GridContainer/Snek" to="." method="_on_snek_pressed"]
-[connection signal="pressed" from="CenterContainer/ChooseFighter/GridContainer/Eleph" to="." method="_on_eleph_pressed"]
+[connection signal="pressed" from="ChoiceUI/MarginContainer/Confirm" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="ChoiceUI/MarginContainer/Confirm" to="Jester/JesterBrain" method="_on_confirm_pressed"]
+[connection signal="pressed" from="ChoiceUI/CenterContainer/ChooseFighter/GridContainer/Liz" to="." method="_on_liz_pressed"]
+[connection signal="pressed" from="ChoiceUI/CenterContainer/ChooseFighter/GridContainer/Snek" to="." method="_on_snek_pressed"]
+[connection signal="pressed" from="ChoiceUI/CenterContainer/ChooseFighter/GridContainer/Eleph" to="." method="_on_eleph_pressed"]
 [connection signal="timeout" from="SuspenseTimer" to="." method="_on_suspense_timer_timeout"]

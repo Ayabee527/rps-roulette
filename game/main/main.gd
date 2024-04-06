@@ -148,7 +148,7 @@ func on_player_lost() -> void:
 
 func on_revolver_shot() -> void:
 	if player_marked_for_death:
-		shake_player_window()
+		shake_player_window(72)
 
 func on_revolver_cocked() -> void:
 	player_marked_for_death = false
@@ -163,4 +163,4 @@ func _on_suspense_timer_timeout() -> void:
 
 
 func _on_jester_brain_hurt() -> void:
-	shake_jester_window()
+	shake_jester_window(72)

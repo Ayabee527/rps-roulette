@@ -17,6 +17,7 @@ const FACES = {
 
 @export var revolver: Revolver
 @export var game_manager: GameManager
+@export var jester_window: Window
 
 @export var face: TextureRect
 @export var hurt_timer: Timer
@@ -35,7 +36,11 @@ func _ready() -> void:
 	revolver.blanked.connect(on_blank)
 	switch_face("DEFAULT")
 
-func switch_face(type: String) -> void:
+func switch_face(type: String, delay: float = 0.0) -> void:
+	if delay > 0.0:
+		face.hide()
+		await get_tree().create_timer(delay, false).timeout
+	face.show()
 	if FACES.has(type.to_upper()):
 		face.texture = load(
 			FACES[type.to_upper()].pick_random()
@@ -48,6 +53,7 @@ func on_revolver_spun() -> void:
 
 func on_revolver_cocked() -> void:
 	marked_for_death = false
+	print("a")
 	var choices = [game_manager.LIZARD]
 	game_manager.jester_choice = choices.pick_random()
 
@@ -55,17 +61,19 @@ func on_jester_lost() -> void:
 	marked_for_death = true
 
 func on_player_lost() -> void:
-	switch_face("SMUG")
+	switch_face("SMUG", 0.1)
 
 func on_draw() -> void:
-	switch_face("BRUH")
+	switch_face("BRUH", 0.1)
 
 func on_blank() -> void:
-	switch_face("DEFAULT")
+	marked_for_death = false
+	switch_face("DEFAULT", 0.1)
 
 func on_revolver_shot() -> void:
 	if marked_for_death:
 		shoot()
+	marked_for_death = false
 
 func shoot() -> void:
 	hurt.emit()
@@ -78,14 +86,14 @@ func lose() -> void:
 
 
 func _on_hurt_timer_timeout() -> void:
-	switch_face("UPSET")
+	switch_face("UPSET", 0.1)
 
 
 func _on_confirm_pressed() -> void:
 	match game_manager.jester_choice:
 		game_manager.LIZARD:
-			switch_face("LIZARD")
+			switch_face("LIZARD", 0.1)
 		game_manager.SNAKE:
-			switch_face("SNAKE")
+			switch_face("SNAKE", 0.1)
 		game_manager.ELEPHANT:
-			switch_face("ELEPHANT")
+			switch_face("ELEPHANT", 0.1)
